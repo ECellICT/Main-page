@@ -12,7 +12,7 @@
       --bg:#fff;
       --text:#222;
       --accent:#2563eb; /* Blue accent */
-      --accent-2:#60a5fa;
+      --accent-2:#4d96f1; 
       --card:#f8e8fb;
       --radius:14px;
       font-family: Poppins, system-ui, sans-serif;
@@ -50,7 +50,7 @@
 
 <header>
   <div class="brand">
-    <img src="photos/ecell logo.jpg" alt="E-Cell ICT Mumbai logo"/>
+    <img src="assets/logo.jpg" alt="E-Cell ICT Mumbai logo"/>
     <h1>E-Cell ICT Mumbai</h1>
   </div>
   <nav>
@@ -70,9 +70,13 @@
       <p>The official Entrepreneurship Cell of ICT Mumbai. A platform for innovation, collaboration, and entrepreneurial spirit.</p>
       <a class="cta" href="#contact">Join Us</a>
     </div>
-    <div class="hero-card">
-      <h3>Next Event</h3>
-      <h4>E-Summit-26</h4>
+    <div class="purple-box">
+    <div class="hero-card" style="background:linear-gradient(135deg,#f8e8fb);color:rgb(0, 0, 0)">
+      <h3>E-Summit 2025</h3>
+      <p>Date: December 2025</p>
+      <p>Join us for an interactive session with successful entrepreneurs and learn about startup journeys.</p>
+      <img src="D:\photos\Esummit- 25\Day 2\IMG_6324.HEIC" alt="E-Summit 2025" style="width:100%;border-radius:12px;margin-top:12px"/>
+    </div>
     </div>
   </section>
 
@@ -85,12 +89,85 @@
   </section>
 
   <!-- Events -->
-  <section id="events" style="margin-top:26px">
-    <h3>Upcoming Events</h3>
-    <div class="card">
-      <p>(Add events list here)</p>
+ <section id="events">
+  <h2>Upcoming Events</h2>
+
+  <div class="event-grid">
+    <div class="event-item">
+      <img src="images/workshop.jpg" alt="Workshop">
+      <h3>Entrepreneurship Workshop</h3>
+      <p>Hands-on session with startup mentors and innovators.<br><strong>Date:</strong> November 2025</p>
     </div>
-  </section>
+
+    <div class="event-item">
+      <img src="images/pitch.jpg" alt="Pitch Event">
+      <h3>Samvaad 4.0</h3>
+      <p>Pitch your ideas to industry experts and investors.<br><strong>Date:</strong> December 2025</p>
+    </div>
+
+    <div class="event-item">
+      <img src="images/networking.jpg" alt="Networking Event">
+      <h3>E-Summit 2026</h3>
+      <p>Meet entrepreneurs, share ideas, and collaborate.<br><strong>Date:</strong> Coming Soon!</p>
+    </div>
+  </div>
+</section>
+
+  <style>
+  /* === Upcoming Events Section === */
+  #events {
+    padding: 40px 20px;
+  }
+
+  #events h2 {
+    text-align: left;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #222;
+  }
+
+  .event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .event-item {
+    background-color: #f6e6ff;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .event-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+  }
+
+  .event-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 15px;
+  }
+
+  .event-item h3 {
+    color: #3b0086;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .event-item p {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.4;
+  }
+</style>
+
 
   <!-- Gallery -->
   <section id="gallery" style="margin-top:26px">
@@ -118,7 +195,7 @@
     <div class="contact">
       <div class="card">
         <h4>Get in Touch</h4>
-        <p>Email: <a href="mailto:ecellsecretary.ta@ug.ictmumbai.edu.in">ecell</a></p>
+        <p>Email: <a href="mailto:ecellsecretary.ta@ug.ictmumbai.edu.in">ecell@example.com</a></p>
         <p><a href="https://www.instagram.com/ecell_ictmumbai?igsh=MW4xeXJhc3h3OTRpNw==" target="_blank">Instagram</a> | <a href="https://www.linkedin.com/company/ecell-ict-mumbai/" target="_blank">LinkedIn</a></p>
       </div>
     </div>
@@ -135,13 +212,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
