@@ -1,154 +1,172 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>E-Cell Blogs</title>
-  <meta name="description" content="Official website of E-Cell ICT Mumbai" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Cell ICT — Blogs</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#fff;
-      --text:#222;
-      --accent:#2563eb; /* Blue accent */
-      --accent-2:#4d96f1; 
-      --card:#f8e8fb;
-      --radius:14px;
-      font-family: Poppins, system-ui, sans-serif;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,var(--bg),#f9fbff);color:var(--text);line-height:1.5}
-    header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;max-width:1200px;margin:0 auto}
-    .brand{display:flex;gap:12px;align-items:center}
-    .brand img{height:56px;border-radius:50%}
-    .brand h1{margin:0;font-size:1.2rem;font-weight:700;letter-spacing:.5px}
-    nav a{margin-left:16px;text-decoration:none;color:var(--text);font-weight:600}
-    nav a:hover{color:var(--accent)}
-    .container{max-width:1200px;margin:18px auto;padding:0 20px}
-
-    /* Hero */
-    .hero{display:grid;grid-template-columns:1fr 400px;gap:28px;align-items:center;margin-top:12px}
-    .hero-card{background:var(--card);padding:28px;border-radius:var(--radius);box-shadow:0 8px 28px rgba(100,120,200,0.1)}
-    .hero h2{margin:0 0 8px;font-size:1.8rem}
-    .cta{display:inline-block;padding:12px 20px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;text-decoration:none;font-weight:700}
-
-    /* Gallery */
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:18px}
-    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:10px;cursor:pointer;transition:.3s}
-    .gallery img:hover{transform:scale(1.04)}
-
-    /* Contact */
-    .contact{display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:22px}
-    .card{background:white;padding:18px;border-radius:14px;box-shadow:0 6px 20px rgba(30,40,90,0.05)}
-    .small{font-size:.9rem;color:#555}
-    footer{padding:26px 20px;margin-top:34px;text-align:center;border-top:1px solid #eee}
-    @media(max-width:850px){.hero{grid-template-columns:1fr}.contact{grid-template-columns:1fr}nav{display:none}}
-  </style>
-</head>
-<body>
-
-<header>
-  <div class="brand">
-    <img src="photos/ecell logo.jpg" alt="E-Cell ICT Mumbai logo"/>
-    <h1>Wellcome to E-Cell Blogs</h1><br>
-  </div>
-    
-  </header>
-  
-  <h2 style="color: blue"><marquee scrollamount="10"><i><b>Here you can find the latest blogs and articles related to E-Cell ICT Mumbai.</b></i></marquee></h2>
- 
-<main class="container">  
-    <section class="hero">
-    <div class="hero-card">
-      
-    <h2>E-Cell ICT Blogs</h2>
-    <p>Insights, ideas, experiences, and stories written by our team —where entrepreneurship meets creativity.</p>
-
-<style>.purple-box p {
-  color: #333;
-  line-height: 1.5; 
-}
-</style>
-</div>
-</section>
-
-<section id="Blogs">
-  <h2>Blogs</h2>
-
-  <div class="category-grid">
-    <div class="category-item">
-      <h3>Blog 1-Startup Tips</h3>
-      <p>Hands-on session with startup mentors and innovators.<br><strong>Author:</strong>Person 1</p>
-      <p><a href="#">Read more</a></p>
-    </div>
-
-    <div class="category-item">
-      <h3>Blog 2-Finance & Markets</h3>
-      <p>Learn about cashflow and investment strategies.<br><strong>Author:</strong> Person 2</p>
-       <p><a href="#">Read more</a></p>
-    </div>
-
-    <div class="category-item">
-      <h3>Blog 3-Innovation</h3>
-      <p>Meet entrepreneurs, share ideas, and collaborate.<br><strong>Author:</strong>Person 3</p>
-       <p><a href="#">Read more</a></p>
-    </div>
-  </div>
-</section>
 <style>
-  /* === Upcoming Events Section === */
-  #Blogs {
-    padding: 40px 20px;
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
   }
 
-  #Blogs h2 {
-    text-align: left;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #222;
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    background: #f4e6ff;
   }
 
-  .category-grid {
+  header img {
+    width: 55px;
+  }
+
+  header h1 {
+    margin: 0;
+    color: #3b007f;
+    font-size: 1.7rem;
+  }
+
+  /* MAIN CONTAINER */
+  .container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 20px;
+  }
+
+  /* BLOG GRID */
+  .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 
-  .category-item {
-    background-color: #f6e6ff;
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  .blog-card {
+    background: #f4e6ff;
+    padding: 14px;
+    border-radius: 14px;
+    transition: .2s;
   }
 
-  .category-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+  .blog-card:hover {
+    transform: translateY(-4px);
   }
 
-  .category-item img {
+  .blog-card img {
     width: 100%;
-    height: 180px;
+    height: 150px;
     object-fit: cover;
-    border-radius: 16px;
-    margin-bottom: 15px;
-  }
-
-  .category-item h3 {
-    color: #3b0086;
-    font-size: 1.2rem;
+    border-radius: 10px;
     margin-bottom: 8px;
   }
 
-  .category-item p {
-    font-size: 0.95rem;
-    color: #333;
-    line-height: 1.4;
+  h3 {
+    margin: 0 0 6px 0;
+    color: #3b007f;
+    font-size: 1rem;
+  }
+
+  .meta {
+    font-size: 0.85rem;
+    color: #555;
+  }
+
+  #noResults {
+    text-align: center;
+    color: #555;
   }
 </style>
-</main>
+</head>
+
+<body>
+
+<header>
+  <img src="photos/ecell logo.jpg" alt="E-Cell ICT Logo">
+  <h1>E-Cell ICT Mumbai</h1>
+</header>
+
+<div class="container">
+
+  <input type="search" id="blogSearch" placeholder="Search..." 
+         style="padding:8px;width:260px;border-radius:8px;border:1px solid #d9c8ff; margin-bottom:15px;">
+
+  <div id="blogGrid" class="blog-grid"></div>
+  <p id="noResults" style="display:none;">No matching blogs found.</p>
+</div>
+
+<!-- BLOG DATA -->
+<script id="postsJson" type="application/json">
+[
+  {
+    "title": "How Students Can Convert Ideas Into Startups",
+    "url": "/posts/post-1.html",
+    "date": "2025-01-12",
+    "author": "Aayush Dongarwar",
+    "excerpt": "A step-by-step guide to validate and launch your student startup idea.",
+    "image": "/images/blog1.jpg"
+  },
+  {
+    "title": "Pitching Tips for Beginners",
+    "url": "/posts/post-2.html",
+    "date": "2025-02-03",
+    "author": "Team E-Cell",
+    "excerpt": "Simple pitching tips to present your idea confidently.",
+    "image": "/images/blog2.jpg"
+  },
+  {
+    "title": "Event Recap: Entrepreneurship Workshop 2025",
+    "url": "/posts/post-3.html",
+    "date": "2025-03-02",
+    "author": "Nisha Patil",
+    "excerpt": "Highlights and key takeaways from the workshop.",
+    "image": "/images/blog3.jpg"
+  }
+]
+</script>
+
+<script>
+  const posts = JSON.parse(document.getElementById("postsJson").textContent);
+  const grid = document.getElementById("blogGrid");
+  const noResults = document.getElementById("noResults");
+  const search = document.getElementById("blogSearch");
+
+  function render(filter = "") {
+    const filtered = posts.filter(p =>
+      p.title.toLowerCase().includes(filter) ||
+      p.author.toLowerCase().includes(filter) ||
+      p.excerpt.toLowerCase().includes(filter)
+    );
+
+    grid.innerHTML = "";
+
+    if (!filtered.length) {
+      noResults.style.display = "block";
+      return;
+    }
+    noResults.style.display = "none";
+
+    filtered.forEach(p => {
+      grid.innerHTML += `
+        <div class="blog-card">
+          <a href="${p.url}">
+            <img src="${p.image}" alt="">
+            <h3>${p.title}</h3>
+            <p>${p.excerpt}</p>
+            <div class="meta">By ${p.author} • ${p.date}</div>
+          </a>
+        </div>`;
+    });
+  }
+
+  render();
+
+  search.addEventListener("input", () => {
+    render(search.value.trim().toLowerCase());
+  });
+</script>
+
 </body>
+</html>
