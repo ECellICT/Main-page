@@ -6,224 +6,438 @@
   <title>E-Cell ICT Mumbai</title>
   <meta name="description" content="Official website of E-Cell ICT Mumbai" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#fff;
-      --text:#222;
-      --accent:#2563eb; /* Blue accent */
-      --accent-2:#4d96f1; 
-      --card:#f8e8fb;
-      --radius:14px;
-      font-family: Poppins, system-ui, sans-serif;
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e40af;
+      --accent: #60a5fa;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --text: #111827;
+      --muted: #6b7280;
+      --bg-light: #f8fafc;
+      --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,var(--bg),#f9fbff);color:var(--text);line-height:1.5}
-    header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;max-width:1200px;margin:0 auto}
-    .brand{display:flex;gap:12px;align-items:center}
-    .brand img{height:56px;border-radius:50%}
-    .brand h1{margin:0;font-size:1.2rem;font-weight:700;letter-spacing:.5px}
-    nav a{margin-left:16px;text-decoration:none;color:var(--text);font-weight:600}
-    nav a:hover{color:var(--accent)}
-    .container{max-width:1200px;margin:18px auto;padding:0 20px}
 
-    /* Hero */
-    .hero{display:grid;grid-template-columns:1fr 400px;gap:28px;align-items:center;margin-top:12px}
-    .hero-card{background:var(--card);padding:28px;border-radius:var(--radius);box-shadow:0 8px 28px rgba(100,120,200,0.1)}
-    .hero h2{margin:0 0 8px;font-size:1.8rem}
-    .cta{display:inline-block;padding:12px 20px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;text-decoration:none;font-weight:700}
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      margin: 0;
+      background: var(--bg-gradient);
+      color: var(--text);
+      line-height: 1.7;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 0;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .brand img {
+      height: 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.2s ease;
+      padding-bottom: 4px;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 10px;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+      align-items: start;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+      border: 1px solid rgba(96, 165, 250, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+    }
+
+    .hero h2 {
+      font-size: 2.2rem;
+      margin: 0 0 1rem 0;
+      color: var(--primary);
+      position: relative;
+      padding-bottom: 12px;
+    }
+
+    .hero h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      border-radius: 2px;
+    }
+
+    .cta {
+      display: inline-block;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--secondary), var(--accent));
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.4);
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 3rem;
+    }
+
+    h3 {
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin: 0 0 1.5rem 0;
+      padding-bottom: 8px;
+      position: relative;
+    }
+
+    h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* Events Grid */
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .event-item {
+      background: white;
+      padding: 1.8rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      border: 1px solid rgba(96, 165, 250, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .event-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+
+    .event-item h4 {
+      color: var(--secondary);
+      margin: 0 0 0.8rem 0;
+      font-size: 1.2rem;
+    }
 
     /* Gallery */
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:18px}
-    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:10px;cursor:pointer;transition:.3s}
-    .gallery img:hover{transform:scale(1.04)}
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .gallery img:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
 
     /* Contact */
-    .contact{display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:22px}
-    .card{background:white;padding:18px;border-radius:14px;box-shadow:0 6px 20px rgba(30,40,90,0.05)}
-    .small{font-size:.9rem;color:#555}
-    footer{padding:26px 20px;margin-top:34px;text-align:center;border-top:1px solid #eee}
-    @media(max-width:850px){.hero{grid-template-columns:1fr}.contact{grid-template-columns:1fr}nav{display:none}}
+    .contact {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    /* Lists */
+    ul {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 2rem 1rem;
+      text-align: center;
+      margin-top: 4rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(107, 114, 128, 0.2);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container { padding: 0 12px; flex-wrap: wrap; gap: 1rem; }
+      nav { 
+        display: none; 
+      }
+      .hero { 
+        grid-template-columns: 1fr; 
+        gap: 1.5rem; 
+      }
+      h2 { font-size: 1.8rem; }
+      .container { padding: 0 8px; margin: 1rem auto; }
+      .event-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 1.5rem; }
+      h1 { font-size: 2rem; }
+    }
   </style>
 </head>
 <body>
-
-<header>
-  <div class="brand">
-    <img src="photos/ecell logo.jpg" alt="E-Cell ICT Mumbai logo"/>
-    <h1>E-Cell ICT Mumbai</h1>
-  </div>
+  <header>
+    <div class="header-container">
+      <a href="#" class="brand">
+        <img src="photos/ecell logo.jpg" alt="E-Cell ICT Mumbai logo"/>
+        <h1>E-Cell ICT Mumbai</h1>
+      </a>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#events">Events</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#fees">Fees</a>
+        <a href="#contact">Contact</a>
+        <a href="Blogs page.html">Blogs</a>
+      </nav>
+    </div>
   </header>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#events">Events</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#contact">Contact</a>
-    <a href="#fees">Fees</a>
-    <a href="Blogs page.html">Blogs</a>
-  </nav>
-</header>
 
-<main class="container">
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-card">
-      <h2>Welcome to <span style="color:var(--accent)">E-Cell ICT Mumbai</span></h2>
-      <p>The official Entrepreneurship Cell of ICT Mumbai. A platform for innovation, collaboration, and entrepreneurial spirit.</p>
-      <a class="cta" href="#contact">Join Us</a>
-    </div>
-    <div class="purple-box">
-    <div class="hero-card" style="background:linear-gradient(135deg,#f8e8fb);color:rgb(0, 0, 0)">
-      <h3>E-Summit 2025</h3>
-      <p>Date: December 2025</p>
-      <p>Join us for an interactive session with successful entrepreneurs and learn about startup journeys.</p>
-    </div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" style="margin-top:26px">
-    <div class="hero-card">
-      <h3>About Us</h3>
-      <p><h4>VISION</h4>
-To develop  ICT's entrepreneurial think-tank, where students develop business acumen and transform into industry-ready professionals<br>
-<h4>MISSION</h4>
-Bridging the gap between theory and practical entrepreneurship
-<ul>
-<li><B>Educate</B> - Conducting workshops and seminars on core business domains such as finance, and strategic decision-making</li>
-<li><B>Engage</B> - Organizing competitions and events which model real-life business challenges</li>
-<li><B>Empower</B> - Providing a forum to discuss issues that involve global markets, policies, and economic disruptions</li>
-<li><B>Execute</B> - Equipping students with managerial skills related to supply chains, marketing strategies, corporate finance, and investment decisions</li>
-</ul>
-</p>
-  <style>.purple-box p {
-  color: #333;
-  line-height: 1.5; /* decreased line spacing */
-}
-</style>
-
-    </div>
-  </section>
-
-  <!-- Events -->
- <section id="events">
-  <h2>Upcoming Events</h2>
-
-  <div class="event-grid">
-    <div class="event-item">
-      <h3>Entrepreneurship Workshop</h3>
-      <p>Hands-on session with startup mentors and innovators.<br><strong>Date:</strong> November 2025</p>
-    </div>
-
-    <div class="event-item">
-      <h3>Samvaad 4.0</h3>
-      <p>Pitch your ideas to industry experts and investors.<br><strong>Date:</strong> December 2025</p>
-    </div>
-
-    <div class="event-item">
-      <h3>E-Summit 2026</h3>
-      <p>Meet entrepreneurs, share ideas, and collaborate.<br><strong>Date:</strong> Coming Soon!</p>
-    </div>
-  </div>
-</section>
-
-  <style>
-  /* === Upcoming Events Section === */
-  #events {
-    padding: 40px 20px;
-  }
-
-  #events h2 {
-    text-align: left;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #222;
-  }
-
-  .event-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-  }
-
-  .event-item {
-    background-color: #f6e6ff;
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .event-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-  }
-
-  .event-item img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 16px;
-    margin-bottom: 15px;
-  }
-
-  .event-item h3 {
-    color: #3b0086;
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-  }
-
-  .event-item p {
-    font-size: 0.95rem;
-    color: #333;
-    line-height: 1.4;
-  }
-</style>
-
-
-  <!-- Gallery -->
-  <section id="gallery" style="margin-top:26px">
-    <h3>Gallery</h3>
-    <div class="gallery">
-      <img src="photos/IMG_6090.jpg" alt="Gallery image 1"/>
-      <img src="photos/IMG_6324.jpg" alt="Gallery image 2"/>
-      <img src="photos/IMG_6427.jpg" alt="Gallery image 3"/>
-      <img src="photos/IMG_20251014_095542.jpg" alt="Gallery image 4"/>
-    </div>
-  </section>
-
-  <!-- Fees -->
-  <section id="fees" style="margin-top:26px">
-    <div class="hero-card" style="text-align:center">
-      <h3>Membership Fees</h3>
-      <p>Click below to pay membership fees (link to be updated)</p>
-      <a class="cta" href="#" target="_blank">Pay Fees</a>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" style="margin-top:26px">
-    <h3>Contact Us</h3>
-    <div class="contact">
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero reveal">
       <div class="card">
-        <h4>Get in Touch</h4>
-        <p>Email: <a href="mailto:ecellsecretary.ta@ug.ictmumbai.edu.in">ecellsecretary.ta@ug.ictmumbai.edu.in</a></p>
-        <p><a href="https://www.instagram.com/ecell_ictmumbai?igsh=MW4xeXJhc3h3OTRpNw==" target="_blank">Instagram</a> | <a href="https://www.linkedin.com/company/ecell-ict-mumbai/" target="_blank">LinkedIn</a></p>
+        <h2>Welcome to <span style="color: var(--accent);">E-Cell ICT Mumbai</span></h2>
+        <p>The official Entrepreneurship Cell of ICT Mumbai. A platform for innovation, collaboration, and entrepreneurial spirit.</p>
+        <a class="cta" href="#contact">Join Us</a>
       </div>
-    </div>
-  </section>
-</main>
+      <div class="card reveal">
+        <h3 style="margin-top: 0;">E-Summit 2025</h3>
+        <p><strong>Date:</strong> December 2025</p>
+        <p>Join us for an interactive session with successful entrepreneurs and learn about startup journeys.</p>
+      </div>
+    </section>
 
-<footer>
-  &copy; <span id="year"></span> E-Cell ICT Mumbai. All Rights Reserved.
-</footer>
+    <!-- About -->
+    <section id="about" class="reveal">
+      <div class="card">
+        <h3>About Us</h3>
+        <h4 style="color: var(--secondary); margin: 1.5rem 0 0.8rem 0;">VISION</h4>
+        <p>To develop ICT's entrepreneurial think-tank, where students develop business acumen and transform into industry-ready professionals</p>
+        
+        <h4 style="color: var(--secondary); margin: 1.5rem 0 0.8rem 0;">MISSION</h4>
+        <p>Bridging the gap between theory and practical entrepreneurship</p>
+        <ul>
+          <li><strong>Educate</strong> - Conducting workshops and seminars on core business domains such as finance, and strategic decision-making</li>
+          <li><strong>Engage</strong> - Organizing competitions and events which model real-life business challenges</li>
+          <li><strong>Empower</strong> - Providing a forum to discuss issues that involve global markets, policies, and economic disruptions</li>
+          <li><strong>Execute</strong> - Equipping students with managerial skills related to supply chains, marketing strategies, corporate finance, and investment decisions</li>
+        </ul>
+      </div>
+    </section>
 
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+    <!-- Events -->
+    <section id="events" class="reveal">
+      <h3>Upcoming Events</h3>
+      <div class="event-grid">
+        <div class="event-item reveal">
+          <h4>Entrepreneurship Workshop</h4>
+          <p>Hands-on session with startup mentors and innovators.<br><strong>Date:</strong> November 2025</p>
+        </div>
+        <div class="event-item reveal">
+          <h4>Samvaad 4.0</h4>
+          <p>Pitch your ideas to industry experts and investors.<br><strong>Date:</strong> December 2025</p>
+        </div>
+        <div class="event-item reveal">
+          <h4>E-Summit 2026</h4>
+          <p>Meet entrepreneurs, share ideas, and collaborate.<br><strong>Date:</strong> Coming Soon!</p>
+        </div>
+      </div>
+    </section>
 
+    <!-- Gallery -->
+    <section id="gallery" class="reveal">
+      <h3>Gallery</h3>
+      <div class="gallery">
+        <img src="photos/IMG_6090.jpg" alt="Gallery image 1"/>
+        <img src="photos/IMG_6324.jpg" alt="Gallery image 2"/>
+        <img src="photos/IMG_6427.jpg" alt="Gallery image 3"/>
+        <img src="photos/IMG_20251014_095542.jpg" alt="Gallery image 4"/>
+      </div>
+    </section>
+
+    <!-- Fees -->
+    <section id="fees" class="reveal">
+      <div class="card" style="text-align: center; max-width: 400px; margin: 0 auto;">
+        <h3>Membership Fees</h3>
+        <p>Click below to pay membership fees (link to be updated)</p>
+        <a class="cta" href="#" target="_blank">Pay Fees</a>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="reveal">
+      <h3>Contact Us</h3>
+      <div class="contact">
+        <div class="card">
+          <h4 style="margin-top: 0;">Get in Touch</h4>
+          <p>Email: <a href="mailto:ecellsecretary.ta@ug.ictmumbai.edu.in">ecellsecretary.ta@ug.ictmumbai.edu.in</a></p>
+          <p>
+            <a href="https://www.instagram.com/ecell_ictmumbai?igsh=MW4xeXJhc3h3OTRpNw==" target="_blank">Instagram</a> | 
+            <a href="https://www.linkedin.com/company/ecell-ict-mumbai/" target="_blank">LinkedIn</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; <span id="year"></span> E-Cell ICT Mumbai. All Rights Reserved.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
-
