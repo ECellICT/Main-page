@@ -222,7 +222,7 @@ header h1 {
   <p id="noResults" style="display:none;">No matching blogs found. Try different keywords!</p>
 </div>
 
-<!-- BLOG DATA -->
+<!-- ✅ FIXED JSON DATA - No trailing commas! -->
 <script id="postsJson" type="application/json">
 [
   {
@@ -232,40 +232,12 @@ header h1 {
     "author": "Aayush Dongarwar",
     "excerpt": "A comprehensive guide exploring cybersecurity practices essential for safe online trading in the post-pandemic era.",
     "image": "posts/CS and trading/Thumbnail.jpeg"
-  },
-   { 
-    "title": "Pitching Tips for Beginners",
-    "url": "/posts/post-2.html",
-    "date": "2025-02-03",
-    "author": "Team E-Cell",
-    "excerpt": "Master the art of pitching your startup ideas confidently to investors and industry experts.",
-    "image": "/images/blog2.jpg"
-  },
-  {
-    "title": "Event Recap: Entrepreneurship Workshop 2025",
-    "url": "/posts/post-3.html",
-    "date": "2025-03-02",
-    "author": "Nisha Patil",
-    "excerpt": "Key highlights, photos, and actionable takeaways from our annual Entrepreneurship Workshop.",
-    "image": "/images/blog3.jpg"
   }
-  
 ]
 </script>
 
 <script>
-let posts = [];
-const postsEl = document.getElementById("postsJson");
-try {
-  if (postsEl && postsEl.textContent.trim()) {
-    const parsed = JSON.parse(postsEl.textContent);
-    posts = Array.isArray(parsed) ? parsed : [];
-  }
-} catch (err) {
-  console.error('Failed to parse posts JSON:', err);
-  posts = [];
-}
-
+const posts = JSON.parse(document.getElementById("postsJson").textContent);
 const grid = document.getElementById("blogGrid");
 const noResults = document.getElementById("noResults");
 const search = document.getElementById("blogSearch");
@@ -303,8 +275,10 @@ function render(filter = "") {
   });
 }
 
+// Initial render
 render();
 
+// Search functionality
 search.addEventListener("input", () => {
   render(search.value.trim().toLowerCase());
 });
