@@ -254,7 +254,18 @@ header h1 {
 </script>
 
 <script>
-const posts = JSON.parse(document.getElementById("postsJson").textContent);
+let posts = [];
+const postsEl = document.getElementById("postsJson");
+try {
+  if (postsEl && postsEl.textContent.trim()) {
+    const parsed = JSON.parse(postsEl.textContent);
+    posts = Array.isArray(parsed) ? parsed : [];
+  }
+} catch (err) {
+  console.error('Failed to parse posts JSON:', err);
+  posts = [];
+}
+
 const grid = document.getElementById("blogGrid");
 const noResults = document.getElementById("noResults");
 const search = document.getElementById("blogSearch");
