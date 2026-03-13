@@ -226,26 +226,21 @@
     }
 
     /* Gallery */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
+    .gallery{
+  column-count:3;
+  column-gap:15px;
+}
 
-    .gallery img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    }
+.gallery img{
+  width:100%;
+  margin-bottom:15px;
+  border-radius:12px;
+  transition:0.3s;
+}
 
-    .gallery img:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-    }
+.gallery img:hover{
+  transform:scale(1.03);
+}
 
     /* Contact */
     .contact {
@@ -328,7 +323,7 @@
         <a href="#gallery">Gallery</a>
         <a href="#fees">Fees</a>
         <a href="#contact">Contact</a>
-        <a href="Blogs page.html">Blogs</a>
+        <a href="Blogs.html">Blogs</a>
       </nav>
     </div>
   </header>
