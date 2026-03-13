@@ -225,28 +225,36 @@
       font-size: 1.2rem;
     }
 
-    /* Gallery */
-    .gallery{
-    column-count:4;
-    column-gap:10px;
-    }
-
-  .gallery img{
-    width:100%;
-    margin-bottom:12px;
-    border-radius:10px;
-    transition:0.2s;
-    }
-
-  .gallery img:hover{
-    transform:scale(1.2);
-    }
+    /* Gallery Section Background */
     .gallery-section{
-  background: linear-gradient(135deg,#f1f5f9,#e2e8f0);
-  padding:50px 20px;
-  border-radius:20px;
-  margin-top:40px;
-}
+      background-image: radial-gradient(#18244a 1px, transparent 1.5px);
+      background-size: 20px 20px;
+      padding:60px 25px;
+      margin-top:40px;
+      border-radius:10px;
+    }
+
+    /* Gallery Grid */
+    .gallery{
+      column-count:4;
+      column-gap:12px;
+    }
+
+    /* Images */
+    .gallery img{
+      width:100%;
+      margin-bottom:12px;
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(33, 10, 10, 0.15);
+      transition:transform .3s ease, box-shadow .3s ease;
+      cursor:pointer;
+    }
+
+    /* Hover effect */
+    .gallery img:hover{
+      transform:scale(1.06);
+      box-shadow:0 12px 28px rgba(0,0,0,0.25);
+    }
 
     /* Contact */
     .contact {
@@ -385,33 +393,32 @@
     </section>
 
     <!-- Gallery -->
-    <section id="gallery" class="reveal">
+    <section class="gallery-section">
       <h3>Gallery</h3>
       <div class="gallery">
-        <img src="photos/E-Summit 26.jpeg" alt="Gallery image 1"/>
-        <img src="photos/E-Summit26/IMG_8616.JPG">
-        <img src="photos/E-Summit26/IMG_8736.JPG">
-        <img src="photos/E-Summit'26  Day 2.jpeg" alt="Gallery image 2"/>
-        <img src="photos/Core Photo.jpeg" alt="Gallery image 3"/>
-        <img src="photos/E-Samwaad 4.jpg">
-        <img src="photos/E-Summit26/IMG_8636.JPG">
-        <img src="photos/E-Summit26/IMG_8637.JPG">
-        <img src="photos/E-Summit26/IMG_8643.JPG">
-        <img src="photos/E-Summit26/IMG_8649.JPG">
-        <img src="photos/E-Summit26/IMG_8652.JPG">
-        <img src="photos/E-Summit26/IMG_8653.JPG">
-        <img src="photos/E-Summit26/IMG_8654.JPG">
-        <img src="photos/E-Summit26/IMG_8657.JPG">
-        <img src="photos/E-Summit26/IMG_8660.JPG">
-        <img src="photos/E-Summit26/IMG_8663.JPG">
-        <img src="photos/E-Summit26/IMG_8665.JPG">
-        <img src="photos/E-Summit26/IMG_8667.JPG">
-        <img src="photos/E-Summit26/IMG_8672.JPG">
-        <img src="photos/E-Summit26/IMG_8675.JPG">
-        <img src="photos/E-Summit26/IMG_8678.JPG">
-        <img src="photos/E-Summit26/IMG_8683.JPG">
-        <img src="photos/E-Summit26/IMG_8691.JPG">
-        <img src="photos/E-Summit26/IMG_8711.JPG">
+        <img src="photos/E-Summit 26.jpeg" alt="Gallery image 1" onclick="openFullscreen(this)"/>
+        <img src="photos/E-Summit26/IMG_8616.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8736.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit'26  Day 2.jpeg" alt="Gallery image 2" onclick="openFullscreen(this)"/>
+        <img src="photos/Core Photo.jpeg" alt="Gallery image 3" onclick="openFullscreen(this)"/>
+        <img src="photos/E-Samwaad 4.jpg" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8636.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8637.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8643.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8649.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8652.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8653.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8654.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8657.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8660.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8663.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8665.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8667.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8675.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8678.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8683.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8691.JPG" onclick="openFullscreen(this)">
+        <img src="photos/E-Summit26/IMG_8711.JPG" onclick="openFullscreen(this)">
       
           
       
@@ -447,18 +454,41 @@
   </footer>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-    
-    // Scroll animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
+  // Update footer year automatically
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // Apply observer to elements (optional but recommended)
+  document.querySelectorAll("section, .hero-card, .event-item, img")
+    .forEach(el => observer.observe(el));
+
+
+  // Fullscreen image function
+  function openFullscreen(img){
+
+    if (img.requestFullscreen) {
+      img.requestFullscreen();
+    } 
+
+    else if (img.webkitRequestFullscreen) {
+      img.webkitRequestFullscreen();
+    } 
+
+    else if (img.msRequestFullscreen) {
+      img.msRequestFullscreen();
+    }
+
+  }
+
+</script>
 </body>
 </html>
