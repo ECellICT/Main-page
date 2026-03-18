@@ -53,6 +53,12 @@ button:hover{
 canvas{
   display:none;
 }
+
+/* ✅ Custom Font */
+@font-face {
+  font-family: 'BaskervilleCustom';
+  src: url('NewBaskervilleStd-Roman.ttf') format('truetype');
+}
 </style>
 </head>
 
@@ -79,13 +85,13 @@ async function generateCert(){
 
   try{
 
-    // ✅ Your Google Sheet API
+    // ✅ Google Sheet API (make sure this link works in browser)
     const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
     const data = await res.json();
 
-    console.log(data); // debug
+    console.log(data);
 
-    // ✅ Safe matching (no column name issue)
+    // ✅ Match name safely
     const valid = data.find(row => {
       return Object.values(row)[0].trim().toLowerCase() === name.toLowerCase();
     });
@@ -95,27 +101,35 @@ async function generateCert(){
       return;
     }
 
-    // ✅ Generate certificate
+    // ✅ Canvas setup
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
     const img = new Image();
-    img.src = "photos/Certificate_p.png"; // your certificate file
+    img.src = "photos/Certificate_p.png";
 
-    img.onload = function(){
+    img.onload = async function(){
 
       ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
-      // Better name formatting
+      // Format name nicely
       const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
 
-      ctx.font = "bold 50px Arial";
-      ctx.fillStyle = "#000";
+      // ✅ Wait for font to load
+      await document.fonts.ready;
+
+      // ✅ Apply custom font
+      ctx.font = "bold 55px 'BaskervilleCustom', serif";
+      ctx.fillStyle = "#1e3a8a";
       ctx.textAlign = "center";
+
+      // Optional styling
+      ctx.shadowColor = "rgba(0,0,0,0.2)";
+      ctx.shadowBlur = 3;
 
       ctx.fillText(displayName, canvas.width/2, 450);
 
-      // Download
+      // Download certificate
       const link = document.createElement("a");
       link.download = displayName + "_certificate.png";
       link.href = canvas.toDataURL();
