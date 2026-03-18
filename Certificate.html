@@ -119,7 +119,7 @@ async function generateCert(){
       await document.fonts.ready;
 
       // ✅ Apply custom font
-      ctx.font = "bold 54px 'BaskervilleCustom', serif";
+      ctx.font = "bold 55px 'BaskervilleCustom', serif";
       ctx.fillStyle = "#1e3a8a";
       ctx.textAlign = "center";
 
@@ -127,7 +127,7 @@ async function generateCert(){
       ctx.shadowColor = "rgba(0,0,0,0.2)";
       ctx.shadowBlur = 3;
 
-      ctx.fillText(displayName, canvas.width/1.3, 402);
+      ctx.fillText(displayName, canvas.width/1.4, 404);
 
       // Download certificate
       const link = document.createElement("a");
