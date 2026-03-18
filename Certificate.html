@@ -27,7 +27,7 @@ h2{
   color:#1e40af;
 }
 
-input, select{
+input{
   width:90%;
   padding:12px;
   margin:10px 0;
@@ -53,29 +53,15 @@ button:hover{
 canvas{
   display:none;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
-<h2>🎓 Generate Your Certificate</h2>
-
-<input type="text" id="name" placeholder="Enter your name">
-
-<select id="event">
-  <option value="">Select Event</option>
-  <option>Pitchers</option>
-  <option>Bidding Wars</option>
-  <option>MOM</option>
-  <option>R&S</option>
-  <option>COT</option>
-</select>
-
-<button onclick="generateCert()">Download Certificate</button>
-
+  <h2>🎓 Generate Your Certificate</h2>
+  <input type="text" id="name" placeholder="Enter your name">
+  <button onclick="generateCert()">Download Certificate</button>
 </div>
 
 <canvas id="canvas" width="1200" height="850"></canvas>
@@ -85,58 +71,53 @@ canvas{
 async function generateCert(){
 
   const name = document.getElementById("name").value.trim();
-  const event = document.getElementById("event").value;
 
-  if(name === "" || event === ""){
-    alert("Please enter name and select event");
+  if(name === ""){
+    alert("Please enter your name");
     return;
   }
 
   try{
 
-    // 🔴 REPLACE THIS WITH YOUR GOOGLE SHEET LINK
-    const res = await fetch("https://opensheet.elk.sh/YOUR_SHEET_ID/Sheet1");
+    // ✅ Your Google Sheet API
+    const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
     const data = await res.json();
 
-    // Check if participant exists
-    const valid = data.find(row =>
-      row.Name.toLowerCase() === name.toLowerCase() &&
-      row.Event.toLowerCase() === event.toLowerCase()
-    );
+    console.log(data); // debug
+
+    // ✅ Safe matching (no column name issue)
+    const valid = data.find(row => {
+      return Object.values(row)[0].trim().toLowerCase() === name.toLowerCase();
+    });
 
     if(!valid){
-      alert("❌ Name not found for this event!");
+      alert("❌ Name not found!");
       return;
     }
 
-    // Generate certificate
+    // ✅ Generate certificate
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
     const img = new Image();
-
-    // 🔴 REPLACE WITH YOUR CERTIFICATE IMAGE
-    img.src = "certificate.png";
+    img.src = "photos/Certificate_p.png"; // your certificate file
 
     img.onload = function(){
 
       ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
-      // Name styling
+      // Better name formatting
+      const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
+
       ctx.font = "bold 50px Arial";
       ctx.fillStyle = "#000";
       ctx.textAlign = "center";
 
-      // Adjust Y position based on your certificate design
-      ctx.fillText(name, canvas.width/2, 450);
-
-      // Optional: event name
-      ctx.font = "30px Arial";
-      ctx.fillText(event, canvas.width/2, 520);
+      ctx.fillText(displayName, canvas.width/2, 450);
 
       // Download
       const link = document.createElement("a");
-      link.download = name + "_certificate.png";
+      link.download = displayName + "_certificate.png";
       link.href = canvas.toDataURL();
       link.click();
     }
