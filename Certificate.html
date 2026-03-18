@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Cell Certificate Generator</title>
+
+<style>
+body{
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#e2e8f0,#f1f5f9);
+  text-align:center;
+  padding:40px;
+}
+
+.container{
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  max-width:500px;
+  margin:auto;
+  box-shadow:0 15px 40px rgba(0,0,0,0.1);
+}
+
+h2{
+  margin-bottom:20px;
+  color:#1e40af;
+}
+
+input, select{
+  width:90%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+button{
+  padding:12px 20px;
+  border:none;
+  background:linear-gradient(90deg,#1e40af,#60a5fa);
+  color:white;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+  margin-top:10px;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+canvas{
+  display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🎓 Generate Your Certificate</h2>
+
+<input type="text" id="name" placeholder="Enter your name">
+
+<select id="event">
+  <option value="">Select Event</option>
+  <option>Pitchers</option>
+  <option>Bidding Wars</option>
+  <option>MOM</option>
+  <option>R&S</option>
+  <option>COT</option>
+</select>
+
+<button onclick="generateCert()">Download Certificate</button>
+
+</div>
+
+<canvas id="canvas" width="1200" height="850"></canvas>
+
+<script>
+
+async function generateCert(){
+
+  const name = document.getElementById("name").value.trim();
+  const event = document.getElementById("event").value;
+
+  if(name === "" || event === ""){
+    alert("Please enter name and select event");
+    return;
+  }
+
+  try{
+
+    // 🔴 REPLACE THIS WITH YOUR GOOGLE SHEET LINK
+    const res = await fetch("https://opensheet.elk.sh/YOUR_SHEET_ID/Sheet1");
+    const data = await res.json();
+
+    // Check if participant exists
+    const valid = data.find(row =>
+      row.Name.toLowerCase() === name.toLowerCase() &&
+      row.Event.toLowerCase() === event.toLowerCase()
+    );
+
+    if(!valid){
+      alert("❌ Name not found for this event!");
+      return;
+    }
+
+    // Generate certificate
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+
+    // 🔴 REPLACE WITH YOUR CERTIFICATE IMAGE
+    img.src = "certificate.png";
+
+    img.onload = function(){
+
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+      // Name styling
+      ctx.font = "bold 50px Arial";
+      ctx.fillStyle = "#000";
+      ctx.textAlign = "center";
+
+      // Adjust Y position based on your certificate design
+      ctx.fillText(name, canvas.width/2, 450);
+
+      // Optional: event name
+      ctx.font = "30px Arial";
+      ctx.fillText(event, canvas.width/2, 520);
+
+      // Download
+      const link = document.createElement("a");
+      link.download = name + "_certificate.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+  }catch(err){
+    alert("Error fetching data. Check sheet link.");
+    console.error(err);
+  }
+
+}
+
+</script>
+
+</body>
+</html>
