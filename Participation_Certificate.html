@@ -79,7 +79,7 @@ canvas{
 
 <script>
 
-// 🔹 Fetch participant from sheet
+// 🔹 Fetch participant
 async function getParticipant(name){
   const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
   const data = await res.json();
@@ -89,7 +89,7 @@ async function getParticipant(name){
   );
 }
 
-// 🔹 Certificate generation
+// 🔹 Generate Certificate
 async function generateCert(){
 
   const name = document.getElementById("name").value.trim();
@@ -125,15 +125,15 @@ async function generateCert(){
 
       await document.fonts.ready;
 
-      // 🎯 Draw Name
+      // 🎯 Name
       ctx.font = "bold 55px 'BaskervilleCustom', serif";
       ctx.fillStyle = "#1e3a8a";
       ctx.textAlign = "center";
 
       ctx.fillText(displayName, canvas.width/1.4, 404);
 
-      // 🎯 QR DATA
-      const qrData = `Name: ${displayName}\nEvent: ${event}\nFestival: ${Festival}`;
+      // ✅ FIXED QR DATA (no newline issue)
+      const qrData = `Name: ${displayName} | Event: ${event} | Festival: ${Festival}`;
 
       const qrContainer = document.createElement("div");
 
@@ -147,10 +147,10 @@ async function generateCert(){
 
         const qrImg = qrContainer.querySelector("img");
 
-        // 🎯 Draw QR on certificate
+        // 🎯 Draw QR
         ctx.drawImage(qrImg, 950, 620, 120, 120);
 
-        // Download certificate
+        // Download
         const link = document.createElement("a");
         link.download = displayName + "_certificate.png";
         link.href = canvas.toDataURL();
@@ -166,7 +166,7 @@ async function generateCert(){
   }
 }
 
-// 🔹 QR Download
+// 🔹 Download QR only
 async function downloadQR(){
 
   const name = document.getElementById("name").value.trim();
@@ -189,7 +189,8 @@ async function downloadQR(){
     const event = Object.values(valid)[1] || "To be added";
     const Festival = "E-Summit'26";
 
-    const qrData = `Name: ${displayName}\nEvent: ${event}\nFestival: ${Festival}`;
+    // ✅ SAME FIX HERE
+    const qrData = `Name: ${displayName} | Event: ${event} | Festival: ${Festival}`;
 
     const qrContainer = document.createElement("div");
 
