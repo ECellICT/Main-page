@@ -122,6 +122,7 @@ async function generateCert(){
 
       const event = Object.values(valid)[1] || "To be added";
       const Festival = "E-Summit'26";
+      console.log(displayName, event, Festival);
 
       await document.fonts.ready;
 
@@ -188,6 +189,7 @@ async function downloadQR(){
     const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
     const event = Object.values(valid)[1] || "To be added";
     const Festival = "E-Summit'26";
+    console.log(displayName, event, Festival);
 
     // ✅ SAME FIX HERE
     const qrData = `Name: ${displayName} | Event: ${event} | Festival: ${Festival}`;
