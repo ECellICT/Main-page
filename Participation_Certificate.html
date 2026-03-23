@@ -46,7 +46,7 @@ button{
   border-radius:10px;
   cursor:pointer;
   font-weight:600;
-  margin-top:10px;
+  margin:8px;
 }
 
 button:hover{
@@ -69,13 +69,27 @@ canvas{
 <div class="container">
   <h2>🎓 Generate Your Certificate</h2>
   <input type="text" id="name" placeholder="Enter your name">
+
+  <br>
   <button onclick="generateCert()">Download Certificate</button>
+  <button onclick="downloadQR()">Download QR</button>
 </div>
 
 <canvas id="canvas" width="1200" height="850"></canvas>
 
 <script>
 
+// 🔹 Common function to get participant
+async function getParticipant(name){
+  const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
+  const data = await res.json();
+
+  return data.find(row => 
+    Object.values(row)[0].trim().toLowerCase() === name.toLowerCase()
+  );
+}
+
+// 🔹 Certificate function
 async function generateCert(){
 
   const name = document.getElementById("name").value.trim();
@@ -87,13 +101,7 @@ async function generateCert(){
 
   try{
 
-    const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
-    const data = await res.json();
-
-    // Find participant
-    const valid = data.find(row => {
-      return Object.values(row)[0].trim().toLowerCase() === name.toLowerCase();
-    });
+    const valid = await getParticipant(name);
 
     if(!valid){
       alert("❌ Name not found!");
@@ -111,42 +119,31 @@ async function generateCert(){
       ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
       const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
+      const event = Object.values(valid)[1] || "E-Cell Event";
 
       await document.fonts.ready;
 
-      // ✅ NAME
       ctx.font = "bold 55px 'BaskervilleCustom', serif";
       ctx.fillStyle = "#1e3a8a";
       ctx.textAlign = "center";
-      ctx.shadowColor = "rgba(0,0,0,0.2)";
-      ctx.shadowBlur = 3;
 
       ctx.fillText(displayName, canvas.width/1.4, 404);
 
-      // ✅ EVENT (2nd column)
-      const event = Object.values(valid)[1] || "E-Cell Event";
-
-      // ✅ QR DATA
       const qrData = `Name: ${displayName}\nEvent: ${event}`;
 
-      // Create QR
       const qrContainer = document.createElement("div");
 
-      const qr = new QRCode(qrContainer, {
+      new QRCode(qrContainer, {
         text: qrData,
         width: 120,
         height: 120
       });
 
-      // Wait for QR render
       setTimeout(() => {
 
         const qrImg = qrContainer.querySelector("img");
-
-        // ✅ Draw QR on certificate
         ctx.drawImage(qrImg, 950, 620, 120, 120);
 
-        // Download AFTER QR is drawn
         const link = document.createElement("a");
         link.download = displayName + "_certificate.png";
         link.href = canvas.toDataURL();
@@ -157,10 +154,58 @@ async function generateCert(){
     }
 
   }catch(err){
-    alert("Error fetching data. Check sheet link.");
+    alert("Error occurred");
     console.error(err);
   }
+}
 
+// 🔹 QR DOWNLOAD FUNCTION
+async function downloadQR(){
+
+  const name = document.getElementById("name").value.trim();
+
+  if(name === ""){
+    alert("Please enter your name");
+    return;
+  }
+
+  try{
+
+    const valid = await getParticipant(name);
+
+    if(!valid){
+      alert("❌ Name not found!");
+      return;
+    }
+
+    const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
+    const event = Object.values(valid)[1] || "E-Cell Event";
+
+    const qrData = `Name: ${displayName}\nEvent: ${event}`;
+
+    const qrContainer = document.createElement("div");
+
+    new QRCode(qrContainer, {
+      text: qrData,
+      width: 300,
+      height: 300
+    });
+
+    setTimeout(() => {
+
+      const qrImg = qrContainer.querySelector("img");
+
+      const link = document.createElement("a");
+      link.download = displayName + "_QR.png";
+      link.href = qrImg.src;
+      link.click();
+
+    }, 300);
+
+  }catch(err){
+    alert("Error generating QR");
+    console.error(err);
+  }
 }
 
 </script>
