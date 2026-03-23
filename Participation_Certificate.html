@@ -119,7 +119,8 @@ async function generateCert(){
       ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
       const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
-      const event = Object.values(valid)[1] || "E-Cell Event";
+      const event = Object.values(valid)[1] || "To be added";
+      const Festival = Object.values(valid)[1] || "E-Summit'26";
 
       await document.fonts.ready;
 
@@ -129,7 +130,7 @@ async function generateCert(){
 
       ctx.fillText(displayName, canvas.width/1.4, 404);
 
-      const qrData = `Name: ${displayName}\nEvent: ${event}`;
+      const qrData = `Name: ${displayName}\nEvent: ${event}\nFestival: ${Festival}`;
 
       const qrContainer = document.createElement("div");
 
