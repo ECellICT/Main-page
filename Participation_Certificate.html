@@ -79,7 +79,7 @@ canvas{
 
 <script>
 
-// 🔹 Common function to get participant
+// 🔹 Fetch participant from sheet
 async function getParticipant(name){
   const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
   const data = await res.json();
@@ -89,7 +89,7 @@ async function getParticipant(name){
   );
 }
 
-// 🔹 Certificate function
+// 🔹 Certificate generation
 async function generateCert(){
 
   const name = document.getElementById("name").value.trim();
@@ -119,17 +119,20 @@ async function generateCert(){
       ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
       const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
+
       const event = Object.values(valid)[1] || "To be added";
-      const Festival = Object.values(valid)[1] || "E-Summit'26";
+      const Festival = "E-Summit'26";
 
       await document.fonts.ready;
 
+      // 🎯 Draw Name
       ctx.font = "bold 55px 'BaskervilleCustom', serif";
       ctx.fillStyle = "#1e3a8a";
       ctx.textAlign = "center";
 
       ctx.fillText(displayName, canvas.width/1.4, 404);
 
+      // 🎯 QR DATA
       const qrData = `Name: ${displayName}\nEvent: ${event}\nFestival: ${Festival}`;
 
       const qrContainer = document.createElement("div");
@@ -143,8 +146,11 @@ async function generateCert(){
       setTimeout(() => {
 
         const qrImg = qrContainer.querySelector("img");
+
+        // 🎯 Draw QR on certificate
         ctx.drawImage(qrImg, 950, 620, 120, 120);
 
+        // Download certificate
         const link = document.createElement("a");
         link.download = displayName + "_certificate.png";
         link.href = canvas.toDataURL();
@@ -160,7 +166,7 @@ async function generateCert(){
   }
 }
 
-// 🔹 QR DOWNLOAD FUNCTION
+// 🔹 QR Download
 async function downloadQR(){
 
   const name = document.getElementById("name").value.trim();
@@ -180,8 +186,8 @@ async function downloadQR(){
     }
 
     const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
-    const event = Object.values(valid)[1] || "E-Cell Event";
-    const Festival = Object.values(valid)[1] || "E-Summit'26";
+    const event = Object.values(valid)[1] || "To be added";
+    const Festival = "E-Summit'26";
 
     const qrData = `Name: ${displayName}\nEvent: ${event}\nFestival: ${Festival}`;
 
