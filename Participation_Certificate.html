@@ -25,11 +25,6 @@ body{
   box-shadow:0 15px 40px rgba(0,0,0,0.1);
 }
 
-h2{
-  margin-bottom:20px;
-  color:#1e40af;
-}
-
 input{
   width:90%;
   padding:12px;
@@ -45,21 +40,7 @@ button{
   color:white;
   border-radius:10px;
   cursor:pointer;
-  font-weight:600;
   margin:8px;
-}
-
-button:hover{
-  opacity:0.9;
-}
-
-canvas{
-  display:none;
-}
-
-@font-face {
-  font-family: 'BaskervilleCustom';
-  src: url('NewBaskervilleStd-Roman.ttf') format('truetype');
 }
 </style>
 </head>
@@ -67,155 +48,99 @@ canvas{
 <body>
 
 <div class="container">
-  <h2>🎓 Generate Your Certificate</h2>
+  <h2>🎓 Generate Certificate</h2>
   <input type="text" id="name" placeholder="Enter your name">
-
   <br>
   <button onclick="generateCert()">Download Certificate</button>
-  <button onclick="downloadQR()">Download QR</button>
 </div>
 
 <canvas id="canvas" width="1200" height="850"></canvas>
 
 <script>
 
-// 🔹 Fetch participant
+// ✅ Fetch participant
 async function getParticipant(name){
   const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
   const data = await res.json();
 
+  console.log(data); // DEBUG
+
   return data.find(row => 
-    Object.values(row)[0].trim().toLowerCase() === name.toLowerCase()
+    (row.Name || row.name).trim().toLowerCase() === name.toLowerCase()
   );
 }
 
-// 🔹 Generate Certificate
+// ✅ Generate certificate with QR
 async function generateCert(){
 
   const name = document.getElementById("name").value.trim();
 
   if(name === ""){
-    alert("Please enter your name");
+    alert("Enter your name");
     return;
   }
 
-  try{
+  const valid = await getParticipant(name);
 
-    const valid = await getParticipant(name);
-
-    if(!valid){
-      alert("❌ Name not found!");
-      return;
-    }
-
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const img = new Image();
-    img.src = "photos/Certificate_p.png";
-
-    img.onload = async function(){
-
-      ctx.drawImage(img,0,0,canvas.width,canvas.height);
-
-      const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
-
-      const event = Object.values(valid)[1] || "To be added";
-      const Festival = "E-Summit'26";
-      console.log(displayName, event, Festival);
-
-      await document.fonts.ready;
-
-      // 🎯 Name
-      ctx.font = "bold 55px 'BaskervilleCustom', serif";
-      ctx.fillStyle = "#1e3a8a";
-      ctx.textAlign = "center";
-
-      ctx.fillText(displayName, canvas.width/1.4, 404);
-
-      // ✅ FIXED QR DATA (no newline issue)
-      const qrData = `Name: ${displayName} | Event: ${event} | Festival: ${Festival}`;
-
-      const qrContainer = document.createElement("div");
-
-      new QRCode(qrContainer, {
-        text: qrData,
-        width: 120,
-        height: 120
-      });
-
-      setTimeout(() => {
-
-        const qrImg = qrContainer.querySelector("img");
-
-        // 🎯 Draw QR
-        ctx.drawImage(qrImg, 950, 620, 120, 120);
-
-        // Download
-        const link = document.createElement("a");
-        link.download = displayName + "_certificate.png";
-        link.href = canvas.toDataURL();
-        link.click();
-
-      }, 300);
-
-    }
-
-  }catch(err){
-    alert("Error occurred");
-    console.error(err);
-  }
-}
-
-// 🔹 Download QR only
-async function downloadQR(){
-
-  const name = document.getElementById("name").value.trim();
-
-  if(name === ""){
-    alert("Please enter your name");
+  if(!valid){
+    alert("❌ Name not found!");
     return;
   }
 
-  try{
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
 
-    const valid = await getParticipant(name);
+  const img = new Image();
+  img.src = "photos/Certificate_p.png";
 
-    if(!valid){
-      alert("❌ Name not found!");
-      return;
-    }
+  img.onload = function(){
+
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
     const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
-    const event = Object.values(valid)[1] || "To be added";
-    const Festival = "E-Summit'26";
-    console.log(displayName, event, Festival);
 
-    // ✅ SAME FIX HERE
-    const qrData = `Name: ${displayName} | Event: ${event} | Festival: ${Festival}`;
+    // ✅ FIXED: Proper column access
+    const event = valid.Event || valid.event || "Not Provided";
+    const festival = "E-Summit'26";
 
-    const qrContainer = document.createElement("div");
+    console.log(displayName, event, festival); // DEBUG
 
-    new QRCode(qrContainer, {
+    // 🎯 Draw name
+    ctx.font = "bold 55px serif";
+    ctx.fillStyle = "#1e3a8a";
+    ctx.textAlign = "center";
+
+    ctx.fillText(displayName, 850, 400);
+
+    // ✅ QR DATA (JSON — guaranteed full data)
+    const qrData = JSON.stringify({
+      name: displayName,
+      event: event,
+      festival: festival
+    });
+
+    const qrDiv = document.createElement("div");
+
+    new QRCode(qrDiv, {
       text: qrData,
-      width: 300,
-      height: 300
+      width: 120,
+      height: 120
     });
 
     setTimeout(() => {
 
-      const qrImg = qrContainer.querySelector("img");
+      const qrImg = qrDiv.querySelector("img");
 
+      // 🎯 Draw QR on certificate
+      ctx.drawImage(qrImg, 950, 620, 120, 120);
+
+      // Download
       const link = document.createElement("a");
-      link.download = displayName + "_QR.png";
-      link.href = qrImg.src;
+      link.download = displayName + "_certificate.png";
+      link.href = canvas.toDataURL();
       link.click();
 
     }, 300);
-
-  }catch(err){
-    alert("Error generating QR");
-    console.error(err);
   }
 }
 
