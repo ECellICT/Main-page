@@ -131,8 +131,8 @@ async function generateCert(){
 
       const qrImg = qrDiv.querySelector("img");
 
-      // 🎯 Draw QR on certificate
-      ctx.drawImage(qrImg, 950, 620, 120, 120);
+      //Draw QR on certificate
+      ctx.drawImage(qrImg, 950, 0, 120, 120);
 
       // Download
       const link = document.createElement("a");
