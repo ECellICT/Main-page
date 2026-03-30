@@ -6,7 +6,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Cell Certificate Generator</title>
+<title>E-Cell Certificate</title>
 
 <style>
 body{
@@ -25,7 +25,7 @@ body{
   box-shadow:0 15px 40px rgba(0,0,0,0.1);
 }
 
-input{
+input, select{
   width:90%;
   padding:12px;
   margin:10px 0;
@@ -49,8 +49,17 @@ button{
 
 <div class="container">
   <h2>🎓 Generate Certificate</h2>
+
   <input type="text" id="name" placeholder="Enter your name">
-  <br>
+
+  <select id="type">
+    <option value="">Select Certificate Type</option>
+    <option value="Participation">Participation</option>
+    <option value="Appreciation">Appreciation</option>
+    <option value="Winner">Winner</option>
+    <option value="Runner up">Runner up</option>
+  </select>
+
   <button onclick="generateCert()">Download Certificate</button>
 </div>
 
@@ -58,32 +67,62 @@ button{
 
 <script>
 
-// ✅ Fetch participant
-async function getParticipant(name){
+// 🔹 Fetch + check specific column
+async function getParticipant(name, type){
+
   const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
   const data = await res.json();
 
-  console.log(data); // DEBUG
-
-  return data.find(row => 
-    (row.Name || row.name).trim().toLowerCase() === name.toLowerCase()
-  );
+  return data.find(row => {
+    const cell = row[type]; // 🔥 dynamic column
+    return cell && cell.trim().toLowerCase() === name.toLowerCase();
+  });
 }
 
-// ✅ Generate certificate with QR
+// 🔹 Get text position based on type
+function getTextPosition(type){
+
+  switch(type){
+
+    case "Participation":
+      return { x: 800, y: 415, size: 50 };
+
+    case "Appreciation":
+      return { x: 800, y: 430, size: 52 };
+
+    case "Winner":
+      return { x: 800, y: 400, size: 58 };
+
+    case "Runner up":
+      return { x: 800, y: 420, size: 55 };
+
+    default:
+      return { x: 800, y: 415, size: 50 };
+  }
+}
+function getQRPosition(type){
+  switch(type){
+    case "Winner": return {x:900,y:180};
+    case "Runner up": return {x:920,y:200};
+    default: return {x:950,y:200};
+  }
+}
+
+// 🔹 Generate certificate
 async function generateCert(){
 
   const name = document.getElementById("name").value.trim();
+  const type = document.getElementById("type").value;
 
-  if(name === ""){
-    alert("Enter your name");
+  if(name === "" || type === ""){
+    alert("Enter name and select certificate type");
     return;
   }
 
-  const valid = await getParticipant(name);
+  const valid = await getParticipant(name, type);
 
   if(!valid){
-    alert("❌ Name not found!");
+    alert("❌ Name not found in selected category!");
     return;
   }
 
@@ -91,31 +130,42 @@ async function generateCert(){
   const ctx = canvas.getContext("2d");
 
   const img = new Image();
-  img.src = "photos/Certificate_p.png";
+ const img = new Image();
+
+// 🔥 Different images for each type
+if(type === "Participation"){
+  img.src = "photos/E-Summit26/Certificates/Participation.png";
+}
+else if(type === "Appreciation"){
+  img.src = "photos/E-Summit26/Certificates/Appreciation.png";
+}
+else if(type === "Winner"){
+  img.src = "photos/E-Summit26/Certificates/Winner.png";
+}
+else if(type === "Runner up"){
+  img.src = "photos/E-Summit26/Certificates/Runner-up.png";
+}
 
   img.onload = function(){
 
     ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
     const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
-
-    // ✅ FIXED: Proper column access
-    const event = valid.Event || valid.event || "Not Provided";
     const festival = "E-Summit'26";
 
-    console.log(displayName, event, festival); // DEBUG
+    // 🎯 Get position based on type
+    const pos = getTextPosition(type);
 
-    // 🎯 Draw name
-    ctx.font = "bold 50px serif";
+    ctx.font = `bold ${pos.size}px serif`;
     ctx.fillStyle = "#000000";
     ctx.textAlign = "center";
 
-    ctx.fillText(displayName, 800, 415);
+    ctx.fillText(displayName, pos.x, pos.y);
 
-    // ✅ QR DATA (JSON — guaranteed full data)
+    // 🎯 QR DATA
     const qrData = JSON.stringify({
       name: displayName,
-      event: event,
+      certificate: type,
       festival: festival
     });
 
@@ -131,12 +181,10 @@ async function generateCert(){
 
       const qrImg = qrDiv.querySelector("img");
 
-      //Draw QR on certificate
       ctx.drawImage(qrImg, 950, 200, 120, 120);
 
-      // Download
       const link = document.createElement("a");
-      link.download = displayName + "_certificate.png";
+      link.download = displayName + "_" + type + ".png";
       link.href = canvas.toDataURL();
       link.click();
 
