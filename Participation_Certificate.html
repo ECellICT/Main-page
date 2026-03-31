@@ -56,7 +56,7 @@ button{
     <option value="">Select Certificate Type</option>
     <option value="Participation">Participation</option>
     <option value="Appreciation">Appreciation</option>
-    <option value="Winner">Winner</option>
+    <option value="Winners">Winners</option>
     <option value="Runner up">Runner up</option>
   </select>
 
@@ -90,7 +90,7 @@ function getTextPosition(type){
     case "Appreciation":
       return { x: 800, y: 430, size: 52 };
 
-    case "Winner":
+    case "Winners":
       return { x: 800, y: 400, size: 58 };
 
     case "Runner up":
@@ -102,7 +102,7 @@ function getTextPosition(type){
 }
 function getQRPosition(type){
   switch(type){
-    case "Winner": return {x:900,y:180};
+    case "Winners": return {x:900,y:180};
     case "Runner up": return {x:920,y:200};
     default: return {x:950,y:200};
   }
@@ -138,8 +138,8 @@ if(type === "Participation"){
 else if(type === "Appreciation"){
   img.src = "photos/E-Summit26/Certificates/Appreciation.png";
 }
-else if(type === "Winner"){
-  img.src = "photos/E-Summit26/Certificates/Winner.png";
+else if(type === "Winners"){
+  img.src = "photos/E-Summit26/Certificates/Winners.png";
 }
 else if(type === "Runner up"){
   img.src = "photos/E-Summit26/Certificates/Runner-up.png";
