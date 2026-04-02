@@ -42,13 +42,6 @@ button{
   cursor:pointer;
   margin:8px;
 }
-
-#loading{
-  display:none;
-  margin-top:10px;
-  font-weight:bold;
-  color:#1e40af;
-}
 </style>
 </head>
 
@@ -68,36 +61,28 @@ button{
   </select>
 
   <button onclick="generateCert()">Download Certificate</button>
-
-  <p id="loading">⏳ Generating certificate... please wait</p>
 </div>
 
 <canvas id="canvas" width="1200" height="850"></canvas>
 
 <script>
 
-// 🔥 CACHE DATA
-let sheetData = null;
-
-// 🔹 Fetch only once
+// 🔹 Fetch participant
 async function getParticipant(name, type){
+  const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
+  const data = await res.json();
 
-  if(!sheetData){
-    const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
-    sheetData = await res.json();
-  }
-
-  return sheetData.find(row => {
+  return data.find(row => {
     const cell = row[type];
-    return cell && cell.trim().toLowerCase() === name.toLowerCase();
+    return cell && cell.toString().trim().toLowerCase() === name.toLowerCase();
   });
 }
 
-// 🔹 Text position
+// 🔹 Text positions
 function getTextPosition(type){
   switch(type){
     case "Participation": return { x:1000, y:700, size:50 };
-    case "Appreciation": return { x:800, y:430, size:52 };
+    case "Appreciation": return { x:650, y:430, size:52 };
     case "Winner": return { x:800, y:400, size:58 };
     case "Runner up": return { x:800, y:420, size:55 };
     default: return { x:800, y:415, size:50 };
@@ -124,33 +109,35 @@ async function generateCert(){
     return;
   }
 
-  document.getElementById("loading").style.display = "block";
-
   const valid = await getParticipant(name, type);
 
   if(!valid){
     alert("❌ Name not found in selected category!");
-    document.getElementById("loading").style.display = "none";
     return;
   }
+
+  const designation = valid.Designation || valid.designation || "";
 
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 
   const img = new Image();
 
-  // 🔥 Different certificates
+  const basePath = "photos/E-Summit26/Certificates/";
+  const hasRole = designation ? "_with_role" : "";
+
+  // 🔥 Dynamic image selection
   if(type === "Participation"){
-    img.src = "photos/E-Summit26/Certificates/Participation.png";
+    img.src = basePath + "Participation" + hasRole + ".png";
   }
   else if(type === "Appreciation"){
-    img.src = "photos/E-Summit26/Certificates/Appreciation.png";
+    img.src = basePath + "Appreciation" + hasRole + ".png";
   }
   else if(type === "Winner"){
-    img.src = "photos/E-Summit26/Certificates/Winner.png";
+    img.src = basePath + "Winner" + hasRole + ".png";
   }
   else if(type === "Runner up"){
-    img.src = "photos/E-Summit26/Certificates/Runner-up.png";
+    img.src = basePath + "Runner up" + hasRole + ".png";
   }
 
   img.onload = function(){
@@ -162,15 +149,23 @@ async function generateCert(){
 
     const pos = getTextPosition(type);
 
+    // 🎯 Name
     ctx.font = `bold ${pos.size}px serif`;
     ctx.fillStyle = "#000000";
     ctx.textAlign = "center";
-
     ctx.fillText(displayName, pos.x, pos.y);
 
+    // 🎯 Designation (if exists)
+    if(designation){
+      ctx.font = "28px serif";
+      ctx.fillText(designation, pos.x, pos.y + 50);
+    }
+
+    // 🎯 QR Data
     const qrData = JSON.stringify({
       name: displayName,
       certificate: type,
+      designation: designation,
       festival: festival
     });
 
@@ -194,8 +189,6 @@ async function generateCert(){
       link.download = displayName + "_" + type + ".png";
       link.href = canvas.toDataURL();
       link.click();
-
-      document.getElementById("loading").style.display = "none";
     };
   }
 }
