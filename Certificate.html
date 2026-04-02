@@ -128,16 +128,16 @@ async function generateCert(){
 
   // 🔥 Dynamic image selection
   if(type === "Participation"){
-    img.src = basePath + "Participation" + hasRole + "Participation.png";
+    img.src = basePath + "Participation" + hasRole + ".png";
   }
   else if(type === "Appreciation"){
-    img.src = basePath + "Appreciation" + hasRole + "Appreciation.png";
+    img.src = basePath + "Appreciation" + hasRole + ".png";
   }
   else if(type === "Winner"){
-    img.src = basePath + "Winner" + hasRole + "Winner.png";
+    img.src = basePath + "Winner" + hasRole + ".png";
   }
   else if(type === "Runner up"){
-    img.src = basePath + "Runner up" + hasRole + "Runner up.png";
+    img.src = basePath + "Runner up" + hasRole + ".png";
   }
 
   img.onload = function(){
