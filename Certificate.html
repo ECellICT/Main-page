@@ -113,6 +113,8 @@ async function generateCert(){
 
   const name = document.getElementById("name").value.trim();
   const type = document.getElementById("type").value;
+  const designation = valid.Designation || valid.designation || "";
+  
 
   if(name === "" || type === ""){
     alert("Enter name and select certificate type");
@@ -151,6 +153,7 @@ else if(type === "Runner up"){
 
     const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
     const festival = "E-Summit'26";
+    const designation = valid.Designation || valid.designation || "";
 
     // 🎯 Get position based on type
     const pos = getTextPosition(type);
@@ -160,11 +163,15 @@ else if(type === "Runner up"){
     ctx.textAlign = "center";
 
     ctx.fillText(displayName, pos.x, pos.y);
+    ctx.font = "30px serif";
+    if(designation){
+    ctx.fillText(designation, pos.x, pos.y + 50); }
 
     // 🎯 QR DATA
     const qrData = JSON.stringify({
       name: displayName,
       certificate: type,
+      designation: designation,
       festival: festival
     });
 
