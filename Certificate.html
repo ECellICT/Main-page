@@ -42,6 +42,13 @@ button{
   cursor:pointer;
   margin:8px;
 }
+
+#loading{
+  display:none;
+  margin-top:10px;
+  font-weight:bold;
+  color:#1e40af;
+}
 </style>
 </head>
 
@@ -61,45 +68,43 @@ button{
   </select>
 
   <button onclick="generateCert()">Download Certificate</button>
+
+  <p id="loading">⏳ Generating certificate... please wait</p>
 </div>
 
 <canvas id="canvas" width="1200" height="850"></canvas>
 
 <script>
 
-// 🔹 Fetch + check specific column
+// 🔥 CACHE DATA
+let sheetData = null;
+
+// 🔹 Fetch only once
 async function getParticipant(name, type){
 
-  const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
-  const data = await res.json();
+  if(!sheetData){
+    const res = await fetch("https://opensheet.elk.sh/1FB7SdRrnt8grH2_Vf29mYAIlmFp21cv7vVKqoy2JODE/all");
+    sheetData = await res.json();
+  }
 
-  return data.find(row => {
-    const cell = row[type]; // 🔥 dynamic column
+  return sheetData.find(row => {
+    const cell = row[type];
     return cell && cell.trim().toLowerCase() === name.toLowerCase();
   });
 }
 
-// 🔹 Get text position based on type
+// 🔹 Text position
 function getTextPosition(type){
-
   switch(type){
-
-    case "Participation":
-      return { x: 1000, y: 700, size: 50 };
-
-    case "Appreciation":
-      return { x: 650, y: 430, size: 52 };
-
-    case "Winner":
-      return { x: 800, y: 400, size: 58 };
-
-    case "Runner up":
-      return { x: 800, y: 420, size: 55 };
-
-    default:
-      return { x: 800, y: 415, size: 50 };
+    case "Participation": return { x:1000, y:700, size:50 };
+    case "Appreciation": return { x:800, y:430, size:52 };
+    case "Winner": return { x:800, y:400, size:58 };
+    case "Runner up": return { x:800, y:420, size:55 };
+    default: return { x:800, y:415, size:50 };
   }
 }
+
+// 🔹 QR position
 function getQRPosition(type){
   switch(type){
     case "Winner": return {x:900,y:180};
@@ -113,39 +118,40 @@ async function generateCert(){
 
   const name = document.getElementById("name").value.trim();
   const type = document.getElementById("type").value;
-  const designation = valid.Designation || valid.designation || "";
-  
 
   if(name === "" || type === ""){
     alert("Enter name and select certificate type");
     return;
   }
 
+  document.getElementById("loading").style.display = "block";
+
   const valid = await getParticipant(name, type);
 
   if(!valid){
     alert("❌ Name not found in selected category!");
+    document.getElementById("loading").style.display = "none";
     return;
   }
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
 
-const img = new Image();
+  const img = new Image();
 
-// 🔥 Different images for each type
-if(type === "Participation"){
-  img.src = "photos/E-Summit26/Certificates/april .png";
-}
-else if(type === "Appreciation"){
-  img.src = "photos/E-Summit26/Certificates/april.png";
-}
-else if(type === "Winner"){
-  img.src = "photos/E-Summit26/Certificates/april.png";
-}
-else if(type === "Runner up"){
-  img.src = "photos/E-Summit26/Certificates/april.png";
-}
+  // 🔥 Different certificates
+  if(type === "Participation"){
+    img.src = "photos/E-Summit26/Certificates/Participation.png";
+  }
+  else if(type === "Appreciation"){
+    img.src = "photos/E-Summit26/Certificates/Appreciation.png";
+  }
+  else if(type === "Winner"){
+    img.src = "photos/E-Summit26/Certificates/Winner.png";
+  }
+  else if(type === "Runner up"){
+    img.src = "photos/E-Summit26/Certificates/Runner-up.png";
+  }
 
   img.onload = function(){
 
@@ -153,9 +159,7 @@ else if(type === "Runner up"){
 
     const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
     const festival = "E-Summit'26";
-    const designation = valid.Designation || valid.designation || "";
 
-    // 🎯 Get position based on type
     const pos = getTextPosition(type);
 
     ctx.font = `bold ${pos.size}px serif`;
@@ -163,15 +167,10 @@ else if(type === "Runner up"){
     ctx.textAlign = "center";
 
     ctx.fillText(displayName, pos.x, pos.y);
-    ctx.font = "30px serif";
-    if(designation){
-    ctx.fillText(designation, pos.x, pos.y + 50); }
 
-    // 🎯 QR DATA
     const qrData = JSON.stringify({
       name: displayName,
       certificate: type,
-      designation: designation,
       festival: festival
     });
 
@@ -183,18 +182,21 @@ else if(type === "Runner up"){
       height: 120
     });
 
-    setTimeout(() => {
+    const qrImg = qrDiv.querySelector("img");
 
-      const qrImg = qrDiv.querySelector("img");
+    qrImg.onload = () => {
 
-      ctx.drawImage(qrImg, 950, 200, 120, 120);
+      const qrPos = getQRPosition(type);
+
+      ctx.drawImage(qrImg, qrPos.x, qrPos.y, 120, 120);
 
       const link = document.createElement("a");
       link.download = displayName + "_" + type + ".png";
       link.href = canvas.toDataURL();
       link.click();
 
-    }, 300);
+      document.getElementById("loading").style.display = "none";
+    };
   }
 }
 
