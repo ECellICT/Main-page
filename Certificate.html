@@ -197,19 +197,25 @@ async function generateCert(){
       height: 120
     });
 
-    const qrImg = qrDiv.querySelector("img");
+    setTimeout(() => {
 
-    qrImg.onload = () => {
+  let qrElement = qrDiv.querySelector("img") || qrDiv.querySelector("canvas");
 
-      const qrPos = getQRPosition(canvas);
+  if(!qrElement){
+    alert("QR failed to generate");
+    return;
+  }
 
-      ctx.drawImage(qrImg, qrPos.x, qrPos.y, 120, 120);
+  const qrPos = getQRPosition(canvas);
 
-      const link = document.createElement("a");
-      link.download = displayName + "_" + type + ".png";
-      link.href = canvas.toDataURL();
-      link.click();
-    };
+  ctx.drawImage(qrElement, qrPos.x, qrPos.y, 120, 120);
+
+  const link = document.createElement("a");
+  link.download = displayName + "_" + type + ".png";
+  link.href = canvas.toDataURL();
+  link.click();
+
+}, 300); // wait for QR to render
   }
 }
 
