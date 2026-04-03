@@ -122,30 +122,14 @@ async function generateCert(){
 
   const img = new Image();
   const basePath = "photos/E-Summit26/Certificates/";
+  const hasRole = designation ? "_with_role" : "";
 
-  // 🔥 Image logic (FIXED ONLY THIS PART)
+  // 🔥 Image logic
   if(type === "Participation"){
     img.src = basePath + "Participation.png";
   }
   else if(type === "Appreciation"){
-
-    const designationClean = (designation || "")
-      .toString()
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, " ");
-
-    console.log("Designation:", designationClean);
-
-    if(designationClean.includes("core")){
-      img.src = basePath + "Appreciation_core.png";
-    }
-    else if(designationClean.includes("executive") || designationClean.includes("exec")){
-      img.src = basePath + "Appreciation_executive.png";
-    }
-    else{
-      img.src = basePath + "Appreciation.png";
-    }
+    img.src = basePath + "Appreciation" + hasRole + ".png";
   }
   else if(type === "Winner"){
     img.src = basePath + "Winner.png";
@@ -171,10 +155,12 @@ async function generateCert(){
     // 🎯 Below text logic
     ctx.font = "28px serif";
 
+    // 👉 Appreciation → show designation
     if(type === "Appreciation" && designation){
       ctx.fillText(designation, pos.x, pos.y + 160);
     }
 
+    // 👉 Winner & Runner up → show event
     if((type === "Winner" || type === "Runner up") && event){
       ctx.fillText(event, pos.x, pos.y + 160);
     }
