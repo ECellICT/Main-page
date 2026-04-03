@@ -82,7 +82,7 @@ function getTextPosition(type, canvas){
 
   switch(type){
     case "Participation": return { x:centerX, y:435, size:50 };
-    case "Appreciation": return { x:centerX, y:360, size:50 };
+    case "Appreciation": return { x:centerX, y:400, size:50 };
     case "Winner": return { x:centerX, y:380, size:50 };
     case "Runner up": return { x:centerX, y:380, size:50 };
     default: return { x:centerX, y:415, size:50 };
@@ -91,7 +91,7 @@ function getTextPosition(type, canvas){
 
 // 🔹 QR position
 function getQRPosition(canvas){
-  return { x: canvas.width - 270, y:260 };
+  return { x: canvas.width - 250, y:260 };
 }
 
 // 🔹 MAIN
@@ -127,9 +127,17 @@ async function generateCert(){
   if(type === "Participation"){
     img.src = basePath + "Participation.png";
   }
-  else if(type === "Appreciation"){
-    img.src = designation ? basePath + "Core.png" : basePath + "Executives.png";
+  else if(type === "Appreciation"){const desigLower = designation.toLowerCase();
+
+  if(desigLower.includes("core")){
+    img.src = basePath + "Core.png";
   }
+  else if(desigLower.includes("executive")){
+    img.src = basePath + "Executives.png";
+  }
+  else{
+    img.src = basePath + "Participation.png"; // fallback
+  }}
   else if(type === "Winner"){
     img.src = basePath + "Winner.png";
   }
