@@ -113,7 +113,9 @@ async function generateCert(){
   }
 
   const designation = valid.Designation || "";
-  const event = valid.Event || "";
+  let event = "";
+  if (type === "Winner") event = valid.W || "";
+  else if (type === "Runner up") event = valid.R || "";
 
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
