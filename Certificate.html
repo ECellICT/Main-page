@@ -129,7 +129,8 @@ async function generateCert(){
     img.src = basePath + "Participation.png";
   }
   else if(type === "Appreciation"){
-    img.src = basePath + "Appreciation" + hasRole + ".png";
+    const roleSuffix = designation ? "_" + designation.toLowerCase() : "";
+    img.src = basePath + "Appreciation" + roleSuffix + ".png";
   }
   else if(type === "Winner"){
     img.src = basePath + "Winner.png";
