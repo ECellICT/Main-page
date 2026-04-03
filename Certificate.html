@@ -177,6 +177,7 @@ async function generateCert(){
 
 
     if((type === "Winner" || type === "Runner up") && event){
+      ctx.font = `bold ${pos.size}px serif`; // same size as name
       ctx.fillText(event, pos.x, pos.y + 110);
     }
 
