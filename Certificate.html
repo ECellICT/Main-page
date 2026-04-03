@@ -81,21 +81,21 @@ async function getParticipant(name, type){
 // 🔹 Text positions
 function getTextPosition(type){
   switch(type){
-    case "Participation": return { x:550, y:430, size:50 };
-    case "Appreciation": return { x:550, y:350, size:50 };
-    case "Winner": return { x:620, y:380, size:50 };
-    case "Runner up": return { x:620, y:380, size:50 };
-    default: return { x:800, y:415, size:50 };
+    case "Participation": return { x: canvas.width / 2, y:430, size:50 };
+    case "Appreciation": return { x: canvas.width / 2, y:350, size:50 };
+    case "Winner": return { x: canvas.width / 2, y:380, size:50 };
+    case "Runner up": return { x: canvas.width / 2, y:380, size:50 };
+    default: return { x: canvas.width / 2, y:415, size:50 };
   }
 }
 
 // 🔹 QR position
 function getQRPosition(type){
   switch(type){
-    case "Winner": return {x:900,y:250};
-    case "Runner up": return {x:920,y:250};
-    case "Appreciation": return {x:920,y:250};
-    case "Participation": return {x:920,y:250};
+    case "Winner": return {x: canvas.width - 300, y:250};
+    case "Runner up": return {x: canvas.width - 280, y:250};
+    case "Appreciation": return {x: canvas.width - 280, y:250};
+    case "Participation": return {x: canvas.width - 280, y:250};
     default: return {x:950,y:200};
   }
 }
