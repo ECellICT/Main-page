@@ -163,12 +163,14 @@ async function generateCert(){
     // 🎯 Below text
     ctx.font = "28px serif";
 
-    if(type === "Appreciation" && designation){
-      ctx.fillText(designation, pos.x, pos.y + 120);
+    if (type === "Appreciation" && designation) {
+      ctx.font = `bold ${pos.size}px serif`; // same size as name
+      ctx.fillText(designation, pos.x, pos.y + 125);
+    }
     }
 
     if((type === "Winner" || type === "Runner up") && event){
-      ctx.fillText(event, pos.x, pos.y + 90);
+      ctx.fillText(event, pos.x, pos.y + 110);
     }
 
     // 🎯 QR
