@@ -153,6 +153,7 @@ async function generateCert(){
     const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
     const festival = "E-Summit'26";
     
+    const isExecutive = (type === "Appreciation" && !designation);
     let pos = getTextPosition(type, canvas);
 
     // 🎯 Adjust ONLY for Executive
@@ -170,7 +171,6 @@ async function generateCert(){
     ctx.font = "28px serif";
 
     if (type === "Appreciation" && designation) {
-    const isExecutive = (type === "Appreciation" && !designation);
       ctx.font = `bold ${pos.size}px serif`; // same size as name
       ctx.fillText(designation, pos.x, pos.y + 125);
     }
