@@ -81,8 +81,8 @@ async function getParticipant(name, type){
 // 🔹 Text positions
 function getTextPosition(type){
   switch(type){
-    case "Participation": return { x: canvas.width / 2, y:430, size:50 };
-    case "Appreciation": return { x: canvas.width / 2, y:350, size:50 };
+    case "Participation": return { x: canvas.width / 2, y:435, size:50 }; //increased y to go down  
+    case "Appreciation": return { x: canvas.width / 2, y:360, size:50 };
     case "Winner": return { x: canvas.width / 2, y:380, size:50 };
     case "Runner up": return { x: canvas.width / 2, y:380, size:50 };
     default: return { x: canvas.width / 2, y:415, size:50 };
@@ -92,10 +92,10 @@ function getTextPosition(type){
 // 🔹 QR position
 function getQRPosition(type){
   switch(type){
-    case "Winner": return {x: canvas.width - 300, y:250};
-    case "Runner up": return {x: canvas.width - 280, y:250};
-    case "Appreciation": return {x: canvas.width - 280, y:250};
-    case "Participation": return {x: canvas.width - 280, y:250};
+    case "Winner": return {x: canvas.width - 270, y:260};
+    case "Runner up": return {x: canvas.width - 270, y:260};
+    case "Appreciation": return {x: canvas.width - 270, y:260};
+    case "Participation": return {x: canvas.width - 270, y:260};
     default: return {x:950,y:200};
   }
 }
@@ -119,6 +119,7 @@ async function generateCert(){
   }
 
   const designation = valid.Designation || valid.designation || "";
+  const event = valid.Event || valid.event || "";
 
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
@@ -126,21 +127,22 @@ async function generateCert(){
   const img = new Image();
 
   const basePath = "photos/E-Summit26/Certificates/";
-  const hasRole = designation ? "_with_role" : "";
 
   // 🔥 Dynamic image selection
   if(type === "Participation"){
     img.src = basePath + "Participation" + ".png";
   }
       else if(type === "Appreciation"){
-        const imageName = designation ? "Core" : "Executives";
+        const imageName = designation ? "Core" : "Executives"; // If designation exists, it's a core team member, else executive
         img.src = basePath + imageName + ".png";
       }
   else if(type === "Winner"){
-    img.src = basePath + "Winner" + ".png";
+    const imageName = event ? "Event" : "Winner"; // complete ternary expression
+    img.src = basePath + imageName + ".png";
   }
   else if(type === "Runner up"){
-    img.src = basePath + "Runner up" + ".png";
+    const imageName = event ? "Event" : "Runner up";
+    img.src = basePath + imageName + ".png";
   }
 
   img.onload = function(){
@@ -161,7 +163,12 @@ async function generateCert(){
     // 🎯 Designation (if exists)
     if(designation){
       ctx.font = "28px serif";
-      ctx.fillText(designation, pos.x, pos.y + 50);
+      ctx.fillText(designation, pos.x, pos.y + 200);
+    }
+    // 🎯 Event (if exists)
+    if(event){
+      ctx.font = "28px serif";
+      ctx.fillText(event, pos.x, pos.y + 200);
     }
 
     // 🎯 QR Data
