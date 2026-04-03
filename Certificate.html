@@ -152,8 +152,14 @@ async function generateCert(){
 
     const displayName = name.replace(/\b\w/g, c => c.toUpperCase());
     const festival = "E-Summit'26";
+    
+    let pos = getTextPosition(type, canvas);
 
-    const pos = getTextPosition(type, canvas);
+    // 🎯 Adjust ONLY for Executive
+    if(isExecutive){
+      pos.y += 70;   // 🔧 move down (adjust this)
+      // pos.x += 20; // optional if horizontal shift needed
+    }
 
     // 🎯 Name
     ctx.font = `bold ${pos.size}px serif`;
@@ -164,6 +170,7 @@ async function generateCert(){
     ctx.font = "28px serif";
 
     if (type === "Appreciation" && designation) {
+    const isExecutive = (type === "Appreciation" && !designation);
       ctx.font = `bold ${pos.size}px serif`; // same size as name
       ctx.fillText(designation, pos.x, pos.y + 125);
     }
