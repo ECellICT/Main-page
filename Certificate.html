@@ -137,12 +137,10 @@ async function generateCert(){
         img.src = basePath + imageName + ".png";
       }
   else if(type === "Winner"){
-    const imageName = event ? "Event" : "Winner"; // complete ternary expression
-    img.src = basePath + imageName + ".png";
+    img.src = basePath +"Winner" + ".png";
   }
   else if(type === "Runner up"){
-    const imageName = event ? "Event" : "Runner up";
-    img.src = basePath + imageName + ".png";
+    img.src = basePath + "Runner up" + ".png";
   }
 
   img.onload = function(){
