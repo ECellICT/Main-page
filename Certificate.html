@@ -122,22 +122,15 @@ async function generateCert(){
 
   const img = new Image();
   const basePath = "photos/E-Summit26/Certificates/";
+  const hasRole = designation ? "_with_role" : "";
 
   // 🔥 Image logic
   if(type === "Participation"){
     img.src = basePath + "Participation.png";
   }
-  else if(type === "Appreciation"){const desigLower = designation.toLowerCase();
-
-  if(desigLower.includes("core")){
-    img.src = basePath + "Core.png";
+  else if(type === "Appreciation"){
+    img.src = basePath + "Appreciation" + hasRole + ".png";
   }
-  else if(desigLower.includes("executive")){
-    img.src = basePath + "Executives.png";
-  }
-  else{
-    img.src = basePath + "Participation.png"; // fallback
-  }}
   else if(type === "Winner"){
     img.src = basePath + "Winner.png";
   }
